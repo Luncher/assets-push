@@ -1,0 +1,30 @@
+stages:
+  - test
+  - build-dev
+  - build-pro
+
+test:
+  stage: test
+  tags:
+    - xlgg-node91-assetspush
+  script:
+    - bash ci.sh
+    - npm run test -s
+
+build-dev:
+  stage: build-dev
+  only:
+    - master
+  tags:
+    - xlgg-docker91-assetspush
+  script:
+    - sh build.sh ${CI_BUILD_REF}
+
+build-pro:
+  stage: build-pro
+  only:
+    - production
+  tags:
+    - xlgg-docker91-assetspush
+  script:
+    - sh build.sh ${CI_BUILD_REF} pro
